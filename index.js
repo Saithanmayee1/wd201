@@ -1,5 +1,6 @@
 const http = require("http");
 const fs = require("fs");
+const args = require('minimist')(process.argv.slice(2));
 let homeContent = "";
 let projectContent ="";
 let registrationContent = "";
@@ -11,6 +12,13 @@ fs.readFile("home.html", (err, home) => {
   homeContent = home;
 });
 
+fs.readFile("project.html", (err, project) => {
+    if (err) {
+      throw err;
+    }
+    projectContent = project;
+  });
+
 fs.readFile("registration.html", (err, registration) => {
   if (err) {
     throw err;
@@ -18,12 +26,14 @@ fs.readFile("registration.html", (err, registration) => {
   registrationContent = registration;
 });
 
-fs.readFile("project.html", (err, project) => {
-  if (err) {
-    throw err;
-  }
-  projectContent = project;
-});
+fs.readFile("home.html", (err, home) => {
+    if (err) {
+      throw err;
+    }
+    
+ 
+
+
 
 http
   .createServer((request, response) => {
@@ -44,4 +54,6 @@ http
         break;
     }
   })
-  .listen(3000);
+  .listen(args.port);
+
+});
